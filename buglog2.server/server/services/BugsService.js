@@ -19,6 +19,15 @@ class BugsService {
     const bug = await dbContext.Bug.create(bugData)
     return bug
   }
+
+  async edit(bugId, creatorId, bugData) {
+    if (!dbContext.Bug.findById(bugId).closed) {
+      const bug = await dbContext.Bug.findOneAndUpdate({ _id: bugId, creatorId: creatorId }, bugData, { new: true })
+      return bug
+    } else {
+      throw new BadRequest('Sorry, you cannot do thit if you are not the creator')
+    }
+  }
 }
 
 export const bugsService = new BugsService()

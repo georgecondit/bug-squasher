@@ -6,8 +6,8 @@
     <router-view />
   </main>
   <footer>
-    <div class="bg-dark text-light text-center p-4">
-      Made with 💖 by CodeWorks
+    <div class="bg-info text-dark text-center p-4">
+      Made by GEo
     </div>
   </footer>
 </template>

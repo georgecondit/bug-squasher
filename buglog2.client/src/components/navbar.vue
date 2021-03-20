@@ -1,12 +1,10 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img
-          alt="logo"
-          src="../assets/img/cw-logo.png"
-          height="45"
-        />
+      <div class="d-flex flex-row align-items-center">
+        <h1 class="brand-font">
+          Bug Squasher
+        </h1>
       </div>
     </router-link>
     <button
@@ -123,5 +121,8 @@ a:hover {
 }
 .nav-item .nav-link.router-link-exact-active{
   color: var(--primary);
+}
+.brand-font{
+  font-family: 'Righteous', cursive;
 }
 </style>

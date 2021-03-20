@@ -1,25 +1,78 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo">
-    <h1 class="my-5 bg-dark text-light p-3 rounded d-flex align-items-center">
-      <span class="mx-2 text-white">Vue 3 Starter</span>
-    </h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-5 offset-1">
+      </div>
+      <div class="col-5 offset-1">
+        <div v-if="state.user.isAuthenticated">
+          <button class="btn btn-info my-2" type="button" data-toggle="modal" data-target="#create-bug">
+            New BUG ticket
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="col-10 offset-1">
+              <div class="row text-center">
+                <div class="col-2">
+                  <h3>Title:</h3>
+                </div>
+                <div class="col-4">
+                  <h3>Bug details:</h3>
+                </div>
+                <div class="col-2 text-right">
+                  <h3>Status:</h3>
+                </div>
+                <div class="col-2">
+                  <h3>Creator:</h3>
+                </div>
+                <div class="col-2">
+                  <h3>Created:</h3>
+                </div>
+              </div>
+              <div class="=row">
+                <div v-if="state.user.isAuthenticated">
+                  <Bug class="col-12" v-for="bug in state.bugs" :key="bug._id" :bug="bug" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { computed, onMounted, reactive } from 'vue'
+import { AppState } from '../AppState'
+import { bugsService } from '../services/BugsService.js'
+import { Bug } from '../components/Bug'
+
 export default {
-  name: 'Home'
+  name: 'Home',
+  setup() {
+    const state = reactive({
+      bugs: computed(() => AppState.bugs),
+      user: computed(() => AppState.user)
+
+    })
+    onMounted(async() => {
+      await bugsService.getAll()
+    })
+    return {
+      state
+    }
+  },
+  components: {
+    Bug
+  }
 }
 </script>
 
-<style scoped lang="scss">
-.home{
-  text-align: center;
-  user-select: none;
-  > img{
-    height: 200px;
-    width: 200px;
-  }
-}
+<style scoped>
+
 </style>

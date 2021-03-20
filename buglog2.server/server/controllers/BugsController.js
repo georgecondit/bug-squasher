@@ -9,6 +9,8 @@ export class BugsController extends BaseController {
       .get('', this.getAll)
       // NOTE: Beyond this point all routes require Authorization tokens (the user must be logged in)
       .use(Auth0Provider.getAuthorizedUserInfo)
+      .get('/:id', this.getById)
+      .put('/:id', this.edit)
       .post('', this.create)
   }
 
@@ -35,9 +37,19 @@ export class BugsController extends BaseController {
   async getById(req, res, next) {
     try {
       const bug = await bugsService.getById(req.params.id)
-      res.send(bug)
+      return res.send(bug)
     } catch (err) {
       next(err)
+    }
+  }
+
+  async edit(req, res, next) {
+    try {
+      req.body.creatorId = req.userInfo.id
+      const bug = await bugsService.edit(req.params.id, req.body.creatorId, req.body)
+      return res.send(bug)
+    } catch (error) {
+      next(error)
     }
   }
 }
