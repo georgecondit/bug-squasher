@@ -30,10 +30,11 @@
                            placeholder="Enter Bug title"
                            aria-describedby="helpId"
                            v-model="state.bug.title"
+                           required
                     >
                   </div>
                   <div class="row"></div>
-                  <div class="col-12 ">
+                  <div class="col-12">
                     <textarea name="description"
                               id="bug-description"
                               cols="30"
@@ -41,15 +42,20 @@
                               placeholder="Describe Your Bug"
                               aria-describedby="helpId"
                               v-model="state.bug.description"
-                    ></textarea>
+                              required
+                    >
+                              </textarea>
                   </div>
                 </div>
               </div>
-              <div class="row justify-content">
-                <div class="col-12 ">
+              <div class="row m-btns">
+                <div class="col-6">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     Close
                   </button>
+                </div>
+
+                <div class="col-6">
                   <button class="btn btn-success" type="submit">
                     Create
                   </button>
@@ -92,3 +98,9 @@ export default ({
   }
 })
 </script>
+
+<style scoped>
+.m-btns{
+  justify-content: space-evenly;
+}
+</style>

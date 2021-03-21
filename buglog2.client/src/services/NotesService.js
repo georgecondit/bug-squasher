@@ -12,7 +12,7 @@ class NotesService {
     }
   }
 
-  async create(noteData) {
+  async createNote(noteData) {
     try {
       const res = await api.post('api/notes', noteData)
       AppState.notes.push(res.data)

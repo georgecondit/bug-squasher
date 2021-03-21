@@ -5,7 +5,7 @@
       </div>
       <div class="col-5 offset-1">
         <div v-if="state.user.isAuthenticated">
-          <button class="btn btn-info my-2" type="button" data-toggle="modal" data-target="#create-bug">
+          <button class="btn btn-danger my-2" type="button" data-toggle="modal" data-target="#create-bug">
             New BUG ticket
           </button>
         </div>
@@ -15,12 +15,12 @@
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <div class="col-10 offset-1">
+            <div class="col-12">
               <div class="row text-center">
                 <div class="col-2">
                   <h3>Title:</h3>
                 </div>
-                <div class="col-3 text-right">
+                <div class="col-3 text-center">
                   <h3>Bug details:</h3>
                 </div>
                 <div class="col-2 text-center">
@@ -57,7 +57,8 @@ export default {
   setup() {
     const state = reactive({
       bugs: computed(() => AppState.bugs),
-      user: computed(() => AppState.user)
+      user: computed(() => AppState.user),
+      account: computed(() => AppState.account)
 
     })
     onMounted(async() => {

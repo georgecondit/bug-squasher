@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div class="col-5 offset-1">
-        <button class="btn btn-info py-2 my-1" type="button" data-toggle="modal" data-target="#create-bug">
+        <button class="btn btn-danger py-2 my-1" type="button" data-toggle="modal" data-target="#create-bug">
           New BUG ticket
         </button>
       </div>
@@ -16,14 +16,14 @@
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <div class="row text-center">
-              <div class="col-2 offset-1">
+            <div class="row">
+              <div class="col-2 text-center">
                 <h3>Title:</h3>
               </div>
-              <div class="col-3">
+              <div class="col-4">
                 <h3>Bug details:</h3>
               </div>
-              <div class="col-1 text-right">
+              <div class="col-2 text-center">
                 <h3>Status:</h3>
               </div>
               <div class="col-2">

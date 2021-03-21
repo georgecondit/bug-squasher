@@ -9,22 +9,49 @@
                 <router-link :to="{name: 'BugPage', params: {id: bug.id}}">
                   <h5>{{ bug.title }}</h5>
                 </router-link>
+                <div v-if="state.user.isAuthenticated">
+                  <button class="btn btn-info my-2" type="button" data-toggle="modal" data-target="#create-note">
+                    Add a Note
+                  </button>
+                </div>
               </div>
-              <div class="col-4 text-center">
+              <div class="col-3 text-center">
                 <h5>{{ bug.description }}</h5>
               </div>
-              <div class="col-1 text-left">
-                <h5>{{ bug.closed }}</h5>
+              <div class="col-2 text-center"
+                   v-if="bug.closed"
+              >
+                <h5 class="text-success">
+                  CLOSED
+                </h5>
               </div>
-              <div class="col-2">
-                <h5>{{ state.user.email }}</h5>
+              <div v-else class="col-2 text-center">
+                <h5 class="text-danger">
+                  OPEN
+                </h5>
               </div>
               <div class="col-2 text-right">
-                <p>{{ bug.createdAt }}</p>
+                <div class="row">
+                  <div class="col-6">
+                    <h5>{{ state.user.email }}</h5>
+                  </div>
+                  <div class="col-6">
+                    <img :src="state.user.picture" alt="">
+                  </div>
+                </div>
               </div>
-              <button class="btn btn-info" @click="deleteBug">
-                Squash!
-              </button>
+              <div class="col-2 text-right">
+                <div class="row">
+                  <div class="col-12">
+                    <p>{{ bug.createdAt }}</p>
+                  </div>
+                </div>
+                <div v-if="!bug.closed" class="col-12">
+                  <button class="btn btn-info" @click="deleteBug">
+                    Squash!
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -56,7 +83,7 @@ export default {
         return bugsService.deleteBug(props.bug.id)
       },
       getBugDate(id) {
-        return bugsService.getBugdDate(id)
+        return bugsService.getBugDate(id)
       }
     }
   }
