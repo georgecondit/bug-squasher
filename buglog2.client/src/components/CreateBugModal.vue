@@ -22,34 +22,39 @@
             <form class="form-inline" @submit.prevent="create">
               <div class="form-group">
                 <div class="row">
-                  <div class="col-6 col-sm-3 col-md-3">
+                  <div class="col-12 mb-3">
                     <input type="text"
                            name="title"
-                           id="board-title"
+                           id="bug-title"
                            class="form-control"
                            placeholder="Enter Bug title"
                            aria-describedby="helpId"
-                           v-model="state.board.title"
+                           v-model="state.bug.title"
                     >
                   </div>
-                  <div class="col-6 col-sm-3 col-md-3">
-                    <input type="text"
-                           name="description"
-                           id="bug-description"
-                           class="form-control"
-                           placeholder="Describe Your Bug"
-                           aria-describedby="helpId"
-                           v-model="state.board.title"
-                    >
+                  <div class="row"></div>
+                  <div class="col-12 ">
+                    <textarea name="description"
+                              id="bug-description"
+                              cols="30"
+                              rows="10"
+                              placeholder="Describe Your Bug"
+                              aria-describedby="helpId"
+                              v-model="state.bug.description"
+                    ></textarea>
                   </div>
                 </div>
               </div>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                Close
-              </button>
-              <button class="btn btn-success" type="submit">
-                Create
-              </button>
+              <div class="row justify-content">
+                <div class="col-12 ">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Close
+                  </button>
+                  <button class="btn btn-success" type="submit">
+                    Create
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
           <div class="modal-footer">

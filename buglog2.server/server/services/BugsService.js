@@ -1,9 +1,11 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
+import { logger } from '../utils/Logger'
 
 class BugsService {
-  async getAll() {
-    const bugs = await dbContext.Bug.find({})
+  async getAll(query = {}) {
+    const bugs = await dbContext.Bug.find(query)
+    logger.log(bugs)
     return bugs
   }
 
@@ -27,6 +29,15 @@ class BugsService {
     } else {
       throw new BadRequest('Sorry, you cannot do thit if you are not the creator')
     }
+  }
+
+  async deleteBug(bugId, userId) {
+    const closedBug = await dbContext.Bug.findOneAndUpdate({ id: bugId, userInfo: userId, closed: true })
+    if (!closedBug) {
+      throw new BadRequest('The creator needs to close this.')
+    }
+
+    return closedBug
   }
 }
 

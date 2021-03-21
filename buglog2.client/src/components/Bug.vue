@@ -1,33 +1,36 @@
 <template>
-  <router-link :to="{name: 'BugPage', params: {id: state.id}}">
-    <div class="body-text">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-2 text-center">
+  <div class="body-text">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-2 text-center">
+                <router-link :to="{name: 'BugPage', params: {id: bug.id}}">
                   <h5>{{ bug.title }}</h5>
-                </div>
-                <div class="col-5 text-center">
-                  <h5>{{ bug.description }}</h5>
-                </div>
-                <div class="col-1 text-left">
-                  <h5>{{ bug.closed }}</h5>
-                </div>
-                <div class="col-2">
-                  <h5>{{ state.user.email }}</h5>
-                </div>
-                <div class="col-2 text-right">
-                  <p>{{ bug.createdAt }}</p>
-                </div>
+                </router-link>
               </div>
+              <div class="col-4 text-center">
+                <h5>{{ bug.description }}</h5>
+              </div>
+              <div class="col-1 text-left">
+                <h5>{{ bug.closed }}</h5>
+              </div>
+              <div class="col-2">
+                <h5>{{ state.user.email }}</h5>
+              </div>
+              <div class="col-2 text-right">
+                <p>{{ bug.createdAt }}</p>
+              </div>
+              <button class="btn btn-info" @click="deleteBug">
+                Squash!
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
@@ -51,6 +54,9 @@ export default {
 
       deleteBug() {
         return bugsService.deleteBug(props.bug.id)
+      },
+      getBugDate(id) {
+        return bugsService.getBugdDate(id)
       }
     }
   }

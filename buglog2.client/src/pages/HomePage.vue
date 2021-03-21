@@ -20,10 +20,10 @@
                 <div class="col-2">
                   <h3>Title:</h3>
                 </div>
-                <div class="col-4">
+                <div class="col-3 text-right">
                   <h3>Bug details:</h3>
                 </div>
-                <div class="col-2 text-right">
+                <div class="col-2 text-center">
                   <h3>Status:</h3>
                 </div>
                 <div class="col-2">

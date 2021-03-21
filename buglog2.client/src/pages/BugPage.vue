@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-5 offset-1 text-right">
         <h2 class="my-2">
-          Squash your Bugs!!
+          Welcome {{ state.account.email }}
         </h2>
       </div>
       <div class="col-5 offset-1">
@@ -17,13 +17,13 @@
         <div class="card">
           <div class="card-body">
             <div class="row text-center">
-              <div class="col-2">
+              <div class="col-2 offset-1">
                 <h3>Title:</h3>
               </div>
-              <div class="col-4">
+              <div class="col-3">
                 <h3>Bug details:</h3>
               </div>
-              <div class="col-2 text-right">
+              <div class="col-1 text-right">
                 <h3>Status:</h3>
               </div>
               <div class="col-2">
@@ -32,6 +32,11 @@
               <div class="col-2">
                 <h3>Created:</h3>
               </div>
+              <!-- <div class="col-1">
+                <button class="btn btn-info" @click.prevent="close">
+                  Squash!
+                </button>
+              </div> -->
             </div>
           </div>
         </div>

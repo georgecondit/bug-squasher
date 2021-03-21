@@ -57,7 +57,7 @@ class BugsService {
   }
 
   async deleteBug(bugId) {
-    const res = window.confirm('are you sure you want to delete your bug?')
+    const res = window.confirm('Did you want to squash that bug?')
     if (!res) {
       return
     }

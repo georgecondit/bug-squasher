@@ -7,9 +7,10 @@
   </main>
   <footer>
     <div class="bg-info text-dark text-center p-4">
-      Made by GEo
+      mAde bY GEo
     </div>
   </footer>
+  <CreateBugModal />
 </template>
 
 <script>
