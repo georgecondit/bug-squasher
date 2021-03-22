@@ -2,31 +2,36 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
 class NotesService {
-  async getAll(query = {}) {
+  async find(query = {}) {
     const notes = await dbContext.Note.find(query)
     return notes
   }
 
-  async getById(id) {
-    const note = await dbContext.Note.findById(id)
+  async findById(id) {
+    const note = await dbContext.Note.findById(id).populate('creator', 'name picture email')
     if (!note) {
-      throw new BadRequest('Invalid Id')
+      throw new BadRequest('Not a valid Id')
     }
     return note
   }
 
-  async createNote(noteData) {
-    const note = dbContext.Note.create(noteData)
+  async create(rawNote) {
+    // NOTE SHout out to D$ for the rawNote!
+    const note = dbContext.Note.create(rawNote)
     return note
   }
 
-  async deleteNote(noteId, creatorId) {
-    if (creatorId === dbContext.Note.findById(noteId).creatorId) {
-      const note = await dbContext.Note.findByIdAndDelete(noteId)
-      return note
-    } else {
-      throw new BadRequest('Sorry, you did not create this notes.')
+  async edit(id, update) {
+    const note = await this.findById(id)
+    if (note.creatorId !== update.creatorId) {
+      throw new BadRequest("This isn't your note, so you can't edit it. Sorry.")
     }
+    return await dbContext.Note.findByIdAndUpdate(id, { body: update.body }, { new: true })
+  }
+
+  async delete(id) {
+    const res = await dbContext.Note.findByIdAndDelete(id)
+    return res
   }
 }
 

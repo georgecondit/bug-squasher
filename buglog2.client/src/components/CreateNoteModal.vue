@@ -1,6 +1,5 @@
 <template>
   <div class="create-note-modal">
-    <!-- Modal -->
     <div class="modal fade"
          id="create-note"
          tabindex="-1"
@@ -33,7 +32,7 @@
                             v-model="state.note.body"
                             required
                   >
-                              </textarea>
+                  </textarea>
                 </div>
               </div>
               <div class="row m-btns">
@@ -44,7 +43,7 @@
                 </div>
 
                 <div class="col-6 text-center">
-                  <button class="btn btn-success" type="submit">
+                  <button class="btn btn-success" type="submit" @click="createNote">
                     Create
                   </button>
                 </div>

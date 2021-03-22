@@ -3,9 +3,9 @@ import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 
 class NotesService {
-  async getNotes(bugId, creatorId) {
+  async getNotes() {
     try {
-      const res = await api.get('api/bugs/' + bugId + '/notes')
+      const res = await api.get('api/notes')
       AppState.notes = res.data
     } catch (err) {
       logger.error(err)
@@ -14,6 +14,7 @@ class NotesService {
 
   async createNote(noteData) {
     try {
+      delete noteData.id
       const res = await api.post('api/notes', noteData)
       AppState.notes.push(res.data)
       return res.data._id

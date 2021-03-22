@@ -1,6 +1,5 @@
 <template>
   <div class="create-bug-modal">
-    <!-- Modal -->
     <div class="modal fade"
          id="create-bug"
          tabindex="-1"
