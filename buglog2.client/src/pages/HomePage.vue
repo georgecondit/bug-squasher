@@ -20,7 +20,7 @@
                 <div class="col-2">
                   <h3>Title:</h3>
                 </div>
-                <div class="col-3 text-center">
+                <div class="col-2 text-center">
                   <h3>Bug details:</h3>
                 </div>
                 <div class="col-2 text-center">
@@ -30,12 +30,15 @@
                   <h3>Creator:</h3>
                 </div>
                 <div class="col-2">
-                  <h3>Created:</h3>
+                  <h4>Created:</h4>
+                </div>
+                <div class="col-2">
+                  <h4>Last Update:</h4>
                 </div>
               </div>
               <div class="row overflow-auto">
                 <div v-if="state.user.isAuthenticated">
-                  <Bug class="col-12" v-for="bug in state.bugs" :key="bug._id" :bug="bug" />
+                  <Bug class="col-12" v-for="bug in state.bugs" :key="bug.id" :bug="bug" />
                 </div>
               </div>
             </div>
@@ -50,7 +53,7 @@
 import { computed, onMounted, reactive } from 'vue'
 import { AppState } from '../AppState'
 import { bugsService } from '../services/BugsService.js'
-import { Bug } from '../components/Bug'
+// import { Bug } from '../components/Bug'
 
 export default {
   name: 'Home',
@@ -67,10 +70,8 @@ export default {
     return {
       state
     }
-  },
-  components: {
-    Bug
   }
+
 }
 </script>
 

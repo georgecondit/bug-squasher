@@ -75,9 +75,11 @@ import { reactive } from 'vue'
 import { bugsService } from '../services/BugsService'
 import { logger } from '../utils/Logger'
 import $ from 'jquery'
+import { useRouter } from 'vue-router'
 export default ({
   name: 'CreateBugModal',
   setup() {
+    const router = useRouter()
     const state = reactive({
       bug: {}
     })
@@ -85,10 +87,11 @@ export default ({
       state,
       async create() {
         try {
-          await bugsService.create(state.bug)
+          const bugId = await bugsService.create(state.bug)
           state.bug = {}
           $('#create-bug').modal('hide')
           $('.modal-backdrop').remove()
+          router.push({ name: 'BugPage', params: { id: bugId } })
         } catch (err) {
           logger.error(err)
         }

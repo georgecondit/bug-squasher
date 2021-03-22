@@ -2,6 +2,7 @@ import BaseController from '../utils/BaseController'
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { bugsService } from '../services/BugsService'
 import { notesService } from '../services/NotesService'
+import { BadRequest } from '../utils/Errors'
 
 export class BugsController extends BaseController {
   constructor() {
@@ -32,6 +33,8 @@ export class BugsController extends BaseController {
       req.body.creatorId = req.userInfo.id
       req.body.creator = req.userInfo
       const bug = await bugsService.create(req.body)
+      // @ts-ignore
+      bug.creator = req.userInfo
       res.send(bug)
     } catch (error) {
       next(error)
@@ -58,10 +61,8 @@ export class BugsController extends BaseController {
 
   async edit(req, res, next) {
     try {
-      req.body.creatorId = req.userInfo.id
-      req.body.creator = req.userInfo
       delete req.body.closed
-      const bug = await bugsService.edit(req.params.id, req.body)
+      const bug = await bugsService.edit(req.params.id, req.body, req.userInfo.id)
       return res.send(bug)
     } catch (error) {
       next(error)
@@ -70,10 +71,10 @@ export class BugsController extends BaseController {
 
   async delete(req, res, next) {
     try {
-      req.body.creatorId = req.userInfo.id
-      req.body.creator = req.userInfo
       const bug = await bugsService.delete(req.params.id)
+
       res.send(bug)
+      throw new BadRequest("You aren't the owner.")
     } catch (err) {
       next(err)
     }

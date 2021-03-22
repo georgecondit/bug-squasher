@@ -1,9 +1,9 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
-
+import { logger } from '../utils/Logger'
 class NotesService {
   async find(query = {}) {
-    const notes = await dbContext.Note.find(query)
+    const notes = await dbContext.Note.find(query).populate('creator', 'name picture email')
     return notes
   }
 
@@ -16,8 +16,9 @@ class NotesService {
   }
 
   async create(rawNote) {
-    // NOTE SHout out to D$ for the rawNote!
+    // NOTE Shout out to D$ for the rawNote!
     const note = dbContext.Note.create(rawNote)
+    logger.log(note)
     return note
   }
 
@@ -29,8 +30,8 @@ class NotesService {
     return await dbContext.Note.findByIdAndUpdate(id, { body: update.body }, { new: true })
   }
 
-  async delete(id) {
-    const res = await dbContext.Note.findByIdAndDelete(id)
+  async delete(id, creatorId) {
+    const res = await dbContext.Note.findOneAndDelete({ _id: id, creatorId: creatorId })
     return res
   }
 }

@@ -4,8 +4,7 @@ import { logger } from '../utils/Logger'
 
 class BugsService {
   async getAll(query = {}) {
-    const bugs = await dbContext.Bug.find(query)
-    logger.log(bugs)
+    const bugs = await dbContext.Bug.find(query).populate('creator', 'name picture email')
     return bugs
   }
 
@@ -22,13 +21,15 @@ class BugsService {
     return bug
   }
 
-  async edit(id, update) {
+  async edit(id, update, userId) {
     const bug = await this.findById(id)
-    if (bug.creatorId !== bug.userInfo.id) {
+    if (bug.creatorId !== userId) {
       throw new BadRequest("You don't have permission to edit this.")
     }
-    if (!dbContext.Bug.findById(id).closed) {
-      const closedBug = await dbContext.Bug.findOneAndUpdate(id, { title: update.title, description: update.description }, { new: true })
+    const bugEdit = await this.findById(id)
+    logger.log(bugEdit.closed)
+    if (!bugEdit.closed) {
+      const closedBug = await dbContext.Bug.findOneAndUpdate({ _id: id, closed: false }, { title: update.title, description: update.description }, { new: true })
       return closedBug
     } else {
       throw new BadRequest('This bug has been closed already. Thanks!')
@@ -36,7 +37,7 @@ class BugsService {
   }
 
   async delete(id) {
-    const closedBug = await dbContext.Bug.findOneAndUpdate(id, { closed: true }, { new: true })
+    const closedBug = await dbContext.Bug.findOneAndUpdate({ _id: id }, { closed: true }, { new: true })
     return closedBug
   }
 }

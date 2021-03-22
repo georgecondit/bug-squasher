@@ -6,16 +6,23 @@
           <div class="card-body">
             <div class="row">
               <div class="col-2 text-center">
-                <router-link :to="{name: 'BugPage', params: {id: bug.id}}">
-                  <h5>{{ bug.title }}</h5>
-                </router-link>
-                <div v-if="state.user.isAuthenticated">
-                  <button class="btn btn-info my-2" type="button" data-toggle="modal" data-target="#create-note">
-                    Add a Note
-                  </button>
+                <div>
+                  <router-link :to="{name: 'BugPage', params: {id: bug.id}}" v-if="state.route.name != 'BugPage'">
+                    <h5>{{ bug.title }}</h5>
+                  </router-link>
+                  <div v-else>
+                    <h5>{{ bug.title }}</h5>
+                  </div>
+                  <div v-if="state.user.isAuthenticated">
+                    <div v-if="!bug.closed">
+                      <button class="btn btn-info my-2" type="button" data-toggle="modal" data-target="#create-note">
+                        Add a Note
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-3 text-center">
+              <div class="col-2 text-center">
                 <h5>{{ bug.description }}</h5>
               </div>
               <div class="col-2 text-center"
@@ -30,26 +37,47 @@
                   OPEN
                 </h5>
               </div>
-              <div class="col-2 text-right">
-                <div class="row">
+              <div class="col-2 text-right" v-if="bug">
+                <div class="row" v-if="bug.creator">
                   <div class="col-6">
-                    <h5>{{ state.user.email }}</h5>
+                    <h5>{{ bug.creator.email }}</h5>
                   </div>
                   <div class="col-6">
-                    <img :src="state.user.picture" alt="">
+                    <img :src="bug.creator.picture" alt="Bug Owner Pic">
                   </div>
                 </div>
               </div>
               <div class="col-2 text-right">
                 <div class="row">
-                  <div class="col-12">
-                    <p>{{ bug.createdAt }}</p>
+                  <div class="col-12 text-center">
+                    <div v-if="bug.createdAt">
+                      <p>Posted: {{ bug.createdAt.slice(5,7) }}/{{ bug.createdAt.slice(8,10) }}/{{ bug.createdAt.slice(0,4) }}</p>
+                    </div>
+                  </div>
+                  <div class="col-12 text-center">
+                    <div v-if="bug.createdAt">
+                      <p>At: {{ bug.createdAt.slice(11,19) }}</p>
+                    </div>
                   </div>
                 </div>
-                <div v-if="!bug.closed" class="col-12">
+                <div v-if="!bug.closed" class="col-12 text-center">
                   <button class="btn btn-info" @click="deleteBug">
                     Squash!
                   </button>
+                </div>
+              </div>
+              <div class="col-2 text-right">
+                <div class="row">
+                  <div class="col-12 text-center">
+                    <div v-if="bug.createdAt">
+                      <p>Updated: {{ bug.createdAt.slice(5,7) }}/{{ bug.createdAt.slice(8,10) }}/{{ bug.createdAt.slice(0,4) }}</p>
+                    </div>
+                  </div>
+                  <div class="col-12 text-center">
+                    <div v-if="bug.createdAt">
+                      <p>At: {{ bug.createdAt.slice(11,19) }}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -64,6 +92,7 @@
 import { computed, reactive } from 'vue'
 import { AppState } from '../AppState'
 import { bugsService } from '../services/BugsService'
+import { useRoute } from 'vue-router'
 export default {
   name: 'Bug',
   props: {
@@ -73,6 +102,10 @@ export default {
   },
   setup(props) {
     const state = reactive({
+      route: useRoute(),
+      account: computed(() => AppState.account),
+      bugs: computed(() => AppState.bugs),
+      notes: computed(() => AppState.notes),
       user: computed(() => AppState.user)
 
     })
@@ -83,7 +116,7 @@ export default {
         return bugsService.deleteBug(props.bug.id)
       },
       getBugDate(id) {
-        return bugsService.getBugDate(id)
+        bugsService.getBugDate(id)
       }
     }
   }

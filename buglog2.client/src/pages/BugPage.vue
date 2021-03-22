@@ -1,14 +1,19 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-5 offset-1 text-right">
+    <div class="row pt-3">
+      <div class="col-4 text-center">
         <h2 class="my-2">
           Welcome {{ state.account.email }}
         </h2>
       </div>
-      <div class="col-5 offset-1">
-        <button class="btn btn-danger py-2 my-1" type="button" data-toggle="modal" data-target="#create-bug">
+      <div class="col-4 text-center">
+        <button class="btn btn-danger py-2" type="button" data-toggle="modal" data-target="#create-bug">
           New BUG ticket
+        </button>
+      </div>
+      <div class="col-4 text-center">
+        <button class="btn btn-success py-2" type="button" data-toggle="modal" data-target="#create-bug">
+          Edit Bug
         </button>
       </div>
     </div>
@@ -20,7 +25,7 @@
               <div class="col-2 text-center">
                 <h3>Title:</h3>
               </div>
-              <div class="col-4">
+              <div class="col-2 ">
                 <h3>Bug details:</h3>
               </div>
               <div class="col-2 text-center">
@@ -32,11 +37,9 @@
               <div class="col-2">
                 <h3>Created:</h3>
               </div>
-              <!-- <div class="col-1">
-                <button class="btn btn-info" @click.prevent="close">
-                  Squash!
-                </button>
-              </div> -->
+              <div class="col-2">
+                <h3>Last Update:</h3>
+              </div>
             </div>
           </div>
         </div>
@@ -44,11 +47,11 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <Bug v-for="bug in state.bugs" :key="bug._id" :bug="bug" />
+        <Bug :bug="state.bug" />
       </div>
     </div>
     <div class="row">
-      <Note class="col-12" v-for="note in state.notes" :key="note._id" :note="note" />
+      <Note v-for="note in state.notes" :key="note" :note="note" />
     </div>
   </div>
 </template>
@@ -63,10 +66,11 @@ import { notesService } from '../services/NotesService'
 export default {
   name: 'BugPage',
   setup() {
-    const route = useRoute()
     const router = useRouter()
+    const route = useRoute()
     const state = reactive({
-      bug: computed(() => AppState.board),
+      bug: computed(() => AppState.bug),
+      bugs: computed(() => AppState.bugs),
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
       notes: computed(() => AppState.notes)
@@ -75,11 +79,17 @@ export default {
       AppState.notes = []
     })
     onMounted(() => {
-      bugsService.getBugById(route.params.id)
+      bugsService.getById(route.params.id)
+      notesService.getNotesByBugId(route.params.id)
+    })
+
+    onBeforeMount(() => {
+      AppState.bug = {}
     })
     return {
       state,
       route,
+
       async createNote() {
         state.Note.bug = AppState.bug.id
         await notesService.createNote(state.note)

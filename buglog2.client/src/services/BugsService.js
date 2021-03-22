@@ -14,25 +14,25 @@ class BugsService {
     }
   }
 
-  async getBugById(bugId) {
+  async getById(bugId) {
     try {
       const res = await api.get('api/bugs/' + bugId)
       AppState.bug = res.data
       logger.log(res.data)
-      notesService.getNotes(bugId)
+      notesService.getNotesByBugId(bugId)
     } catch (err) {
       logger.error(err)
     }
   }
 
-  async getCreator(bug) {
-    try {
-      const res = await api.get('api/bugs/' + bug.id)
-      bug.creator = res.data.creator.name
-    } catch (error) {
-      logger.error(error)
-    }
-  }
+  // async getCreator(bug) {
+  //   try {
+  //     const res = await api.get('api/bugs/' + bug.id)
+  //     bug.creator = res.data.creator.name
+  //   } catch (error) {
+  //     logger.error(error)
+  //   }
+  // }
 
   async create(bugData) {
     try {
@@ -60,7 +60,7 @@ class BugsService {
     }
     try {
       await api.delete('/api/bugs/' + id)
-      this.getAll()
+      this.getById(id)
     } catch (err) {
       logger.error(err)
     }

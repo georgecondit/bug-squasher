@@ -64,6 +64,7 @@ import { reactive, computed } from 'vue'
 import { logger } from '../utils/Logger'
 import $ from 'jquery'
 import { AppState } from '../AppState'
+import { notesService } from '../services/NotesService'
 export default ({
   name: 'CreateNoteModal',
   setup() {
@@ -76,7 +77,8 @@ export default ({
 
       async createNote() {
         try {
-          state.note.bug = state.bugThis
+          state.note.bug = state.bug
+          await notesService.createNote(state.note)
           state.note = {}
           $('#create-note').modal('hide')
           $('.modal-backdrop').remove()

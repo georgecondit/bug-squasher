@@ -4,14 +4,14 @@ import { logger } from '../utils/Logger'
 import { Note } from '../Models/Note'
 
 class NotesService {
-  async getNotes() {
-    try {
-      const res = await api.get('api/notes')
-      AppState.notes = res.data
-    } catch (err) {
-      logger.error(err)
-    }
-  }
+  // async getNotes() {
+  //   try {
+  //     const res = await api.get('api/notes')
+  //     AppState.notes = res.data
+  //   } catch (err) {
+  //     logger.error(err)
+  //   }
+  // }
 
   async getNotesByBugId(bugId) {
     try {
@@ -33,15 +33,14 @@ class NotesService {
     }
   }
 
-  async delete(noteId) {
+  async delete(note) {
     const res = window.confirm('Are you sure you want to delete your note?')
     if (!res) {
       return
     }
     try {
-      const bug = AppState.bug
-      await api.delete('/api/notes/' + noteId)
-      this.getNotes(bug._id)
+      await api.delete('/api/notes/' + note.id)
+      AppState.notes.splice(AppState.notes.indexOf(note), 1)
     } catch (err) {
       logger.error(err)
     }
