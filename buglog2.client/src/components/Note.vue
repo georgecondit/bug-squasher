@@ -23,6 +23,7 @@ export default {
   setup(props) {
     const state = reactive({
       user: computed(() => AppState.user),
+      bug: computed(() => AppState.bug),
       notes: computed(() => AppState.notes)
     })
     return {

@@ -9,7 +9,7 @@ class BugsService {
     return bugs
   }
 
-  async getById(id) {
+  async findById(id) {
     const bug = await dbContext.Bug.findById(id).populate('creator', 'name picture email')
     if (!bug) {
       throw new BadRequest('Invalid Id')
@@ -23,7 +23,7 @@ class BugsService {
   }
 
   async edit(id, update) {
-    const bug = await this.getById(id)
+    const bug = await this.findById(id)
     if (bug.creatorId !== bug.userInfo.id) {
       throw new BadRequest("You don't have permission to edit this.")
     }

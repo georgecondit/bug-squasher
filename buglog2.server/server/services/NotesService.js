@@ -2,7 +2,7 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
 class NotesService {
-  async fing(query = {}) {
+  async getAll(query = {}) {
     const notes = await dbContext.Note.find(query)
     return notes
   }

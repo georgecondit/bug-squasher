@@ -10,8 +10,8 @@ export class BugsController extends BaseController {
       // NOTE: Beyond this point all routes require Authorization tokens (the user must be logged in)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('/:id', this.getById)
-      .put('/:id', this.edit)
       .post('', this.create)
+      .put('/:id', this.edit)
       .delete('/:id', this.delete)
   }
 
@@ -28,8 +28,9 @@ export class BugsController extends BaseController {
     try {
       // NOTE NEVER TRUST THE CLIENT TO ADD THE CREATOR ID
       req.body.creatorId = req.userInfo.id
-      const data = await bugsService.create(req.body)
-      res.send(data)
+      req.body.creator = req.userInfo
+      const bug = await bugsService.create(req.body)
+      res.send(bug)
     } catch (error) {
       next(error)
     }
@@ -37,7 +38,7 @@ export class BugsController extends BaseController {
 
   async getById(req, res, next) {
     try {
-      const bug = await bugsService.getById(req.params.id)
+      const bug = await bugsService.findById(req.params.id)
       return res.send(bug)
     } catch (err) {
       next(err)
@@ -47,7 +48,9 @@ export class BugsController extends BaseController {
   async edit(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
-      const bug = await bugsService.edit(req.params.id, req.body.creatorId, req.body)
+      req.body.creator = req.userInfo
+      delete req.body.closed
+      const bug = await bugsService.edit(req.params.id, req.body)
       return res.send(bug)
     } catch (error) {
       next(error)
@@ -56,7 +59,10 @@ export class BugsController extends BaseController {
 
   async delete(req, res, next) {
     try {
-      res.send(await bugsService.delete(req.params.id, req.userInfo.id))
+      req.body.creatorId = req.userInfo.id
+      req.body.creator = req.userInfo
+      const bug = await bugsService.delete(req.params.id)
+      res.send(bug)
     } catch (err) {
       next(err)
     }

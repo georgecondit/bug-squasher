@@ -5,7 +5,7 @@ import { logger } from '../utils/Logger'
 class NotesService {
   async getNotes(bugId, creatorId) {
     try {
-      const res = await api.get('api/bugs/' + bugId + '/notes/' + creatorId)
+      const res = await api.get('api/bugs/' + bugId + '/notes')
       AppState.notes = res.data
     } catch (err) {
       logger.error(err)

@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-12">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body ">
             <div class="col-12">
               <div class="row text-center">
                 <div class="col-2">
@@ -33,7 +33,7 @@
                   <h3>Created:</h3>
                 </div>
               </div>
-              <div class="=row">
+              <div class="row overflow-auto">
                 <div v-if="state.user.isAuthenticated">
                   <Bug class="col-12" v-for="bug in state.bugs" :key="bug._id" :bug="bug" />
                 </div>
