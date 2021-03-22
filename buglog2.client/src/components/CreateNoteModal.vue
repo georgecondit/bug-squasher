@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="col-6 text-center">
-                  <button class="btn btn-success" type="submit" @click="createNote">
+                  <button class="btn btn-success" type="submit">
                     Create
                   </button>
                 </div>
@@ -60,21 +60,23 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
-import { notesService } from '../services/NotesService'
+import { reactive, computed } from 'vue'
 import { logger } from '../utils/Logger'
 import $ from 'jquery'
+import { AppState } from '../AppState'
 export default ({
   name: 'CreateNoteModal',
   setup() {
     const state = reactive({
-      note: {}
+      note: {},
+      bug: computed(() => AppState.bug)
     })
     return {
       state,
+
       async createNote() {
         try {
-          await notesService.create(state.note)
+          state.note.bug = state.bugThis
           state.note = {}
           $('#create-note').modal('hide')
           $('.modal-backdrop').remove()

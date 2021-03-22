@@ -1,6 +1,7 @@
 import { api } from './AxiosService'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
+import { Note } from '../Models/Note'
 
 class NotesService {
   async getNotes() {
@@ -9,6 +10,15 @@ class NotesService {
       AppState.notes = res.data
     } catch (err) {
       logger.error(err)
+    }
+  }
+
+  async getNotesByBugId(bugId) {
+    try {
+      const res = await api.get('api/bugs/' + bugId + '/notes')
+      AppState.notes = res.data.map(n => new Note(n))
+    } catch (error) {
+      logger.error(error)
     }
   }
 
