@@ -8,22 +8,10 @@ class BugsService {
   async getAll() {
     try {
       const res = await api.get('api/bugs')
-
       AppState.bugs = res.data.map(b => new Bug(b))
     } catch (error) {
       logger.log(error)
     }
-  }
-
-  async getBugsByUser(userId) {
-    const bugs = []
-    logger.log(bugs)
-    for (let i = 0; i < AppState.bugs.length; i++) {
-      if (AppState.bugs[i].creatorId === userId) {
-        bugs.push(AppState.bugs[i])
-      }
-    }
-    return bugs
   }
 
   async getBugById(bugId) {
@@ -37,22 +25,31 @@ class BugsService {
     }
   }
 
+  async getCreator(bug) {
+    try {
+      const res = await api.get('api/bugs/' + bug.id)
+      bug.creator = res.data.creator.name
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
   async create(bugData) {
     try {
       delete bugData.id
       const res = await api.post('api/bugs', bugData)
       AppState.bugs.push(res.data)
       return res.data._id
-    } catch (err) {
-      logger.error(err)
+    } catch (error) {
+      logger.error(error)
     }
   }
 
   async editBug(bugData) {
     try {
       await api.put('api/bugs/' + bugData._id, bugData)
-    } catch (err) {
-      logger.error(err)
+    } catch (error) {
+      logger.error(error)
     }
   }
 
@@ -72,8 +69,8 @@ class BugsService {
   getBugDate(id) {
     const bug = AppState.bugs.find(b => b.id === id)
     if (bug) {
-      const bugDate = bug.createdAt
-      const updatedDate = new Date(bugDate)
+      const date = bug.createdAt
+      const updatedDate = new Date(date)
       const year = updatedDate.getFullYear()
       const month = (this.fixLowNumber(updatedDate.getMonth() + 1))
       const day = this.fixLowNumber(updatedDate.getDate())
