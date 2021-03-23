@@ -77,7 +77,7 @@
                   <div class="row">
                     <div class="col-12">
                       <div v-if="bug.createdAt">
-                        <p>Updated: {{ bug.createdAt.slice(5,7) }}/{{ bug.createdAt.slice(8,10) }}/{{ bug.createdAt.slice(0,4) }}</p>
+                        <p>Updated: {{ bug.updatedAt }}</p>
                       </div>
                     </div>
                     <div class="col-12">
