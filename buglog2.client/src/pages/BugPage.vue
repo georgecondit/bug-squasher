@@ -1,19 +1,14 @@
 <template>
   <div class="container-fluid">
     <div class="row pt-3">
-      <div class="col-4 text-center">
+      <div class="col-6 text-center">
         <h2 class="my-2">
           Welcome {{ state.account.email }}
         </h2>
       </div>
-      <div class="col-4 text-center">
+      <div class="col-6 text-center">
         <button class="btn btn-danger py-2" type="button" data-toggle="modal" data-target="#create-bug">
           New BUG ticket
-        </button>
-      </div>
-      <div class="col-4 text-center">
-        <button class="btn btn-success py-2" type="button" data-toggle="modal" data-target="#create-bug">
-          Edit Bug
         </button>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <template>
-  <div class="create-bug-modal">
+  <div class="edit-bug-modal">
     <div class="modal fade"
-         id="create-bug"
+         id="edit-bug"
          tabindex="-1"
          role="dialog"
          aria-labelledby="modelTitleId"
@@ -11,14 +11,14 @@
         <div class="modal-content">
           <div class="modal-header">
             <h3 class="modal-title">
-              New Bug Ticket
+              Edit this Bug
             </h3>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form class="form-inline" @submit.prevent="create">
+            <form class="form-inline" @submit.prevent="editBug">
               <div class="form-group">
                 <div class="row">
                   <div class="col-12 mb-3">
@@ -26,7 +26,7 @@
                            name="title"
                            id="bug-title"
                            class="form-control"
-                           placeholder="Enter Bug title"
+                           placeholder="Edit Bug title"
                            aria-describedby="helpId"
                            v-model="state.bug.title"
                            required
@@ -56,44 +56,45 @@
 
                 <div class="col-6">
                   <button class="btn btn-success" type="submit">
-                    Create
+                    Execute
                   </button>
                 </div>
               </div>
             </form>
           </div>
-          <div class="modal-footer">
-          </div>
         </div>
+      </div>
+
+      <div class="modal-footer">
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive } from 'vue'
-import { bugsService } from '../services/BugsService'
+import { reactive, computed } from 'vue'
 import { logger } from '../utils/Logger'
 import $ from 'jquery'
-import { useRouter } from 'vue-router'
+import { AppState } from '../AppState'
+import { bugsService } from '../services/BugsService'
 export default ({
-  name: 'CreateBugModal',
+  name: 'EditBugModal',
   setup() {
-    const router = useRouter()
     const state = reactive({
-      bug: {}
+      bug: computed(() => AppState.bug)
     })
     return {
       state,
-      async create() {
+
+      async editBug() {
         try {
-          const bugId = await bugsService.create(state.bug)
+          state.bug.id = state.bug
+          await bugsService.editBug(state.bug)
           state.bug = {}
-          $('#create-bug').modal('hide')
+          $('#edit-bug').modal('hide')
           $('.modal-backdrop').remove()
-          router.push({ name: 'BugPage', params: { id: bugId } })
-        } catch (err) {
-          logger.error(err)
+        } catch (error) {
+          logger.error(error)
         }
       }
     }
@@ -103,6 +104,6 @@ export default ({
 
 <style scoped>
 .m-btns{
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 </style>

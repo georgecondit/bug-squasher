@@ -12,6 +12,7 @@
   </footer>
   <CreateBugModal />
   <CreateNoteModal />
+  <EditBugModal />
 </template>
 
 <script>

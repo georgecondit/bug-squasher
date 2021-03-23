@@ -62,6 +62,10 @@ export class BugsController extends BaseController {
   async edit(req, res, next) {
     try {
       delete req.body.closed
+      const closedBug = await bugsService.findById(req.params.id)
+      if (closedBug.closed) {
+        throw new BadRequest('Bug Closed, no edititing allowed. Sorry!')
+      }
       const bug = await bugsService.edit(req.params.id, req.body, req.userInfo.id)
       return res.send(bug)
     } catch (error) {

@@ -16,7 +16,6 @@ class NotesService {
   }
 
   async create(rawNote) {
-    // NOTE Shout out to D$ for the rawNote!
     const note = dbContext.Note.create(rawNote)
     logger.log(note)
     return note

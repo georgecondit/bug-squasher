@@ -78,6 +78,11 @@
                       <p>At: {{ bug.createdAt.slice(11,19) }}</p>
                     </div>
                   </div>
+                  <div v-if="!bug.closed" class="col-12 text-center">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#edit-bug">
+                      Edit Bug!
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -111,6 +116,10 @@ export default {
     })
     return {
       state,
+      async editBug() {
+        bugsService.edit(state.bug)
+        state.edit = false
+      },
 
       deleteBug() {
         return bugsService.deleteBug(props.bug.id)

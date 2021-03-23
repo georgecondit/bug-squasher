@@ -1,19 +1,19 @@
 <template>
   <div class="container-fluid">
-    <div class="card">
-      <div class="row">
-        <div class="col-1 offset-3 text-right">
-          <h4>Bug Note: </h4>
+    <div class="card mt-4">
+      <div class="row my-3 align-items-center">
+        <div class="col-3 text-right">
+          <h5>Bug Note: </h5>
         </div>
-        <div class="col-2">
-          <h4>
-            Note: {{ note.body }}
-          </h4>
+        <div class="col-3">
+          <h5>
+            {{ note.body }}
+          </h5>
         </div>
-        <div class="col-2">
-          <h3>By: {{ note.creator.email }}</h3>
+        <div class="col-3">
+          <h5>By: {{ note.creator.email }}</h5>
         </div>
-        <div class="col-1 mt-1">
+        <div class="col-3 mt-1">
           <button class="btn btn-danger btn-sm" @click="deleteNote">
             delete
           </button>
