@@ -15,7 +15,7 @@
                       <h5>{{ bug.title }}</h5>
                     </div>
                     <div v-if="state.user.isAuthenticated">
-                      <div v-if="state.user.email===bug.creator.email">
+                      <div v-if="state.user.email === bug.creator.email">
                         <div v-if="route.name != 'Home' ">
                           <div v-if="!bug.closed">
                             <button class="btn btn-info my-2" type="button" data-toggle="modal" data-target="#create-note">
@@ -77,14 +77,10 @@
                   <div class="row">
                     <div class="col-12">
                       <div v-if="bug.createdAt">
-                        <p>Updated: {{ bug.updatedAt }}</p>
+                        <p>Updated: {{ new Date(bug.updatedAt).toLocaleString() }}</p>
                       </div>
                     </div>
-                    <div class="col-12">
-                      <div v-if="bug.createdAt">
-                        <p>At: {{ bug.createdAt.slice(11,19) }}</p>
-                      </div>
-                    </div>
+
                     <div v-if="route.name != 'Home' ">
                       <div v-if="state.user.email === bug.creator.email">
                         <div v-if="!bug.closed" class="col-12">

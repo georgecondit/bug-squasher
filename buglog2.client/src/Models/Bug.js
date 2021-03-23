@@ -8,5 +8,6 @@ export class Bug {
     this.createdAt = data.createdAt || ''
     this.closedDate = data.closedDate
     this.closed = data.closed
+    this.updatedAt = data.updatedAt
   }
 }
