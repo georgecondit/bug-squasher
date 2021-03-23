@@ -38,7 +38,8 @@ class BugsService {
 
   async editBug(bugData) {
     try {
-      await api.put('api/bugs/' + bugData._id, bugData)
+      const res = await api.put('api/bugs/' + bugData._id, bugData)
+      this.getById(res.data._id)
     } catch (error) {
       logger.error(error)
     }

@@ -60,10 +60,12 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="!bug.closed" class="col-12 text-center">
-                  <button class="btn btn-info" @click="deleteBug">
-                    Squash!
-                  </button>
+                <div v-if="bug.creatorId">
+                  <div v-if="!bug.closed" class="col-12 text-center">
+                    <button class="btn btn-info" @click="deleteBug">
+                      Squash!
+                    </button>
+                  </div>
                 </div>
               </div>
               <div class="col-2 text-right">
@@ -78,10 +80,12 @@
                       <p>At: {{ bug.createdAt.slice(11,19) }}</p>
                     </div>
                   </div>
-                  <div v-if="!bug.closed" class="col-12 text-center">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#edit-bug">
-                      Edit Bug!
-                    </button>
+                  <div v-if="bug.creatorId">
+                    <div v-if="!bug.closed" class="col-12 text-center">
+                      <button class="btn btn-primary" data-toggle="modal" data-target="#edit-bug">
+                        Edit Bug!
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -116,7 +120,7 @@ export default {
     })
     return {
       state,
-      async editBug() {
+      async edit() {
         bugsService.edit(state.bug)
         state.edit = false
       },

@@ -18,7 +18,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form class="form-inline" @submit.prevent="editBug">
+            <form class="form-inline" @submit.prevent="edit">
               <div class="form-group">
                 <div class="row">
                   <div class="col-12 mb-3">
@@ -88,8 +88,7 @@ export default ({
 
       async editBug() {
         try {
-          state.bug.id = state.bug
-          await bugsService.editBug(state.bug)
+          await bugsService.edit(state.bug)
           state.bug = {}
           $('#edit-bug').modal('hide')
           $('.modal-backdrop').remove()
