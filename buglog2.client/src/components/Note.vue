@@ -14,9 +14,11 @@
           <h5>By: {{ note.creator.email }}</h5>
         </div>
         <div class="col-2 text-center mt-1">
-          <button class="btn btn-danger btn-sm" @click="deleteNote">
-            delete
-          </button>
+          <div v-if="state.user.email===bug.creator.email">
+            <button class="btn btn-danger btn-sm" @click="deleteNote">
+              delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
