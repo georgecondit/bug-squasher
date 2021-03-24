@@ -15,15 +15,15 @@
                       <h5>{{ bug.title }}</h5>
                     </div>
                     <div v-if="state.user.isAuthenticated">
-                      <div v-if="state.user.email === bug.creator.email">
-                        <div v-if="route.name != 'Home' ">
-                          <div v-if="!bug.closed">
-                            <button class="btn btn-info my-2" type="button" data-toggle="modal" data-target="#create-note">
-                              Add a Note
-                            </button>
-                          </div>
+                      <!-- <div v-if="state.user.email === bug.creator.email"> -->
+                      <div v-if="route.name != 'Home' ">
+                        <div v-if="!bug.closed">
+                          <button class="btn btn-info my-2" type="button" data-toggle="modal" data-target="#create-note">
+                            Add a Note
+                          </button>
                         </div>
                       </div>
+                      <!-- </div> -->
                     </div>
                   </div>
                 </div>

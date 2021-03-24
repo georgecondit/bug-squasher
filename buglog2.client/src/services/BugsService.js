@@ -58,25 +58,13 @@ class BugsService {
     }
   }
 
-  getBugDate(id) {
-    const bug = AppState.bugs.find(b => b.id === id)
-    if (bug) {
-      const date = bug.createdAt
-      const updatedDate = new Date(date)
-      const year = updatedDate.getFullYear()
-      const month = (this.fixLowNumber(updatedDate.getMonth() + 1))
-      const day = this.fixLowNumber(updatedDate.getDate())
-      const hour = this.fixLowNumber(updatedDate.getHours())
-      const minute = this.fixLowNumber(updatedDate.getMinutes())
-      const newDate = `${hour}:${minute} ${day}-${month}-${year}`
-      return newDate
+  async toggleLiveBugs(toggle) {
+    if (toggle) {
+      const res = await api.get('api/bugs/')
+      AppState.bugs = res.data.map(b => new Bug(b))
+    } else {
+      AppState.bugs = AppState.bugs.filter(b => b.closed !== true)
     }
-
-    return 0
-  }
-
-  fixLowNumber(n) {
-    return (n < 10 ? '0' : '') + n
   }
 }
 export const bugsService = new BugsService()

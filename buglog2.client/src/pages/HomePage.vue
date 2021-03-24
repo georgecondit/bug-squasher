@@ -1,9 +1,12 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-5 offset-1">
+      <div class="col-6 order-2">
+        <button type="button" class="btn btn-warning my-2" @click="toggleLiveBugs">
+          {{ state.closed ? 'Show Closed' : 'Hide Closed' }}
+        </button>
       </div>
-      <div class="col-5 offset-1">
+      <div class="col-6 text-right">
         <div v-if="state.user.isAuthenticated">
           <button class="btn btn-danger my-2" type="button" data-toggle="modal" data-target="#create-bug">
             New BUG ticket
@@ -61,14 +64,19 @@ export default {
     const state = reactive({
       bugs: computed(() => AppState.bugs),
       user: computed(() => AppState.user),
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      closed: false
 
     })
     onMounted(async() => {
       await bugsService.getAll()
     })
     return {
-      state
+      state,
+      async toggleLiveBugs() {
+        await bugsService.toggleLiveBugs(state.closed)
+        state.closed = !state.closed
+      }
     }
   }
 

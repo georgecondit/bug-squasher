@@ -63,6 +63,7 @@
                 Account
               </div>
             </router-link>
+
             <div
               class="list-group-item list-group-item-action hoverable"
               @click="logout"
@@ -95,6 +96,7 @@ export default {
       async logout() {
         await AuthService.logout({ returnTo: window.location.origin })
       }
+
     }
   }
 }
